@@ -1,25 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react'
+import MovieList from './Component/MovieList';
+import moviesData from './Data'
+import NAvBar from './Component/NavBar';
+import AddMovie from './Component/AddMovie';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import SingleMovie from './Page/SingleMovie';
+import { Route, Routes } from 'react-router-dom';
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  const  [movies,setMovies] = useState(moviesData)
+ const [inputSearch,setInputSearch]=useState("")
+ const [inputStars,setInputStars]=useState(0)
+
+const Add=(movie)=>
+{
+  setMovies([...movies,movie])
 }
 
-export default App;
+  return (
+
+
+    <div>
+
+<NAvBar setInputSearch={setInputSearch} setInputStars={setInputStars} />
+<AddMovie Add={Add} />
+
+<Routes >
+      <Route path='/' element={<MovieList movies={movies} inputStars={inputStars} inputSearch={inputSearch}  />}/>
+      <Route path='/movie/:id' element={<SingleMovie movies={movies} inputStars={inputStars} inputSearch={inputSearch}  />}/>
+
+ </Routes >
+
+   
+   
+    </div>
+  )
+}
+
+export default App
